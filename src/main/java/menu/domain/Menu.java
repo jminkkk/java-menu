@@ -11,15 +11,39 @@ public enum Menu {
     WESTERN_MENU(MenuCategory.WESTERN, List.of("라자냐", "그라탱", "뇨끼", "끼슈", "프렌치 토스트", "바게트", "스파게티", "피자", "파니니")),
     ;
     private final MenuCategory menuCategory;
-    private final List<String> menu;
+    private final List<String> menuNames;
 
-    Menu(MenuCategory menuCategory, List<String> menu) {
+    Menu(MenuCategory menuCategory, List<String> menuNames) {
         this.menuCategory = menuCategory;
-        this.menu = menu;
+        this.menuNames = menuNames;
+    }
+
+    public MenuCategory getMenuCategory() {
+        return menuCategory;
+    }
+
+    public List<String> getMenuNames() {
+        return menuNames;
     }
 
     public static boolean isMenu(String name) {
         return Arrays.stream(Menu.values())
-                .anyMatch(menu -> menu.menu.contains(name));
+                .anyMatch(menu -> menu.menuNames.contains(name));
+    }
+
+    public static List<String> findMenuNamesByCategory(MenuCategory menuCategory) {
+        Menu menu =  Arrays.stream(Menu.values())
+                .filter(m -> m.menuCategory.equals(menuCategory))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 카테고리의 메뉴 목록이 존재하지 않습니다."));
+
+        return menu.getMenuNames();
+    }
+
+    public static Menu findMenuByMenuName(String menuName) {
+        return Arrays.stream(Menu.values())
+                .filter(m -> m.getMenuNames().contains(menuName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 메뉴가 존재하지 않습니다."));
     }
 }

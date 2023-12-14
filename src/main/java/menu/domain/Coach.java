@@ -12,6 +12,14 @@ public class Coach {
         this.hateMenus = new ArrayList<>();
     }
 
+    public List<String> getHateMenus() {
+        return hateMenus;
+    }
+
+    public boolean hateMenu(String name) {
+        return this.hateMenus.contains(name);
+    }
+
     public String getName() {
         return name;
     }

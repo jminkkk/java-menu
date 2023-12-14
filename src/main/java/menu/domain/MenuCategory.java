@@ -21,10 +21,15 @@ public enum MenuCategory {
         return categoryNum;
     }
 
-    public static MenuCategory of(int num) {
+    public static MenuCategory findByCategoryNum(int num) {
         return Arrays.stream(MenuCategory.values())
                 .filter(menuCategory -> menuCategory.getCategoryNum() == num)
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("숫자와 해당하는 카테고리가 없습니다."));
+    }
+
+    public static MenuCategory findMenuCategoryByMenu(String menu) {
+        Menu findOne = Menu.findMenuByMenuName(menu);
+        return findOne.getMenuCategory();
     }
 }

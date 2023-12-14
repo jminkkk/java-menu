@@ -10,6 +10,6 @@ class MenuCategoryTest {
     @ParameterizedTest
     @CsvSource(value = "KOREAN,2")
     void of(MenuCategory menuCategory, int num) {
-        assertThat(MenuCategory.of(num)).isEqualTo(menuCategory);
+        assertThat(MenuCategory.findByCategoryNum(num)).isEqualTo(menuCategory);
     }
 }
