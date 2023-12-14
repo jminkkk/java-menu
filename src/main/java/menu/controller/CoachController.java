@@ -3,9 +3,10 @@ package menu.controller;
 import static menu.util.CoachFactory.generate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import menu.domain.Coach;
-import menu.domain.Menu;
 import menu.util.validator.CoachValidator;
 import menu.util.validator.MenuValidator;
 import menu.view.InputView;
@@ -13,7 +14,8 @@ import menu.view.OutputView;
 
 public class CoachController {
     public List<Coach> init() {
-        List<Coach> coaches = generate(createCoaches());
+        String[] coachNames = createCoaches();
+        List<Coach> coaches = generate(coachNames);
         OutputView.println();
 
         registerHateMenu(coaches);
@@ -25,31 +27,38 @@ public class CoachController {
         try {
             String[] coachNames = InputView.input().split(",");
             CoachValidator.validate(coachNames);
+            return coachNames;
         } catch (IllegalArgumentException e) {
-            OutputView.println();
+            OutputView.println(e.getMessage());
         }
         return createCoaches();
     }
 
     private void registerHateMenu(List<Coach> coaches) {
         for (Coach coach : coaches) {
-            OutputView.println(coach.getName() + "(이)가 못 먹는 메뉴를 입력해 주세요.");
-            List<String> hateMenus = getHateMenus();
+            List<String> hateMenus = getHateMenus(coach.getName());
 
             coach.addHateMenus(hateMenus);
             OutputView.println();
         }
     }
 
-    private List<String> getHateMenus() {
-        String[] hateMenus = InputView.input().split(",");
-        MenuValidator.validate(hateMenus);
+    private List<String> getHateMenus(String name) {
+        OutputView.println(name + "(이)가 못 먹는 메뉴를 입력해 주세요.");
+        String input = InputView.input();
 
-        List<String> hateMenuList = new ArrayList<>();
-        for (String menu : hateMenus) {
-            hateMenuList.add(menu);
+        if (input.isBlank()) {
+            return new ArrayList<>();
         }
 
-        return hateMenuList;
+        try {
+            String[] hateMenus = input.split(",");
+            MenuValidator.validate(hateMenus);
+            return Arrays.stream(hateMenus)
+                    .collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            OutputView.println(e.getMessage());
+            return getHateMenus(name);
+        }
     }
 }
