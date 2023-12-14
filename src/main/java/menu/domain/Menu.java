@@ -1,5 +1,6 @@
 package menu.domain;
 
+import java.util.Arrays;
 import java.util.List;
 
 public enum Menu {
@@ -15,5 +16,10 @@ public enum Menu {
     Menu(MenuCategory menuCategory, List<String> menu) {
         this.menuCategory = menuCategory;
         this.menu = menu;
+    }
+
+    public static boolean isMenu(String name) {
+        return Arrays.stream(Menu.values())
+                .anyMatch(menu -> menu.menu.contains(name));
     }
 }

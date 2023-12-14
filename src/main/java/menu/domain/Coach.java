@@ -16,7 +16,11 @@ public class Coach {
         return name;
     }
 
-    public void addHateMenus(String menu) {
+    public void addHateMenu(String menu) {
         hateMenus.add(menu);
+    }
+
+    public void addHateMenus(List<String> menus) {
+        hateMenus.addAll(menus);
     }
 }
