@@ -6,8 +6,8 @@ public enum MenuCategory {
     JAPANESE(1, "일식"),
     KOREAN(2, "한식"),
     CHINESE(3, "중식"),
-    ASIAN(3, "아시안"),
-    WESTERN(4, "양식")
+    ASIAN(4, "아시안"),
+    WESTERN(5, "양식")
     ;
     private final int categoryNum;
     private final String name;
@@ -21,7 +21,12 @@ public enum MenuCategory {
         return categoryNum;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public static MenuCategory findByCategoryNum(int num) {
+        System.out.println(num);
         return Arrays.stream(MenuCategory.values())
                 .filter(menuCategory -> menuCategory.getCategoryNum() == num)
                 .findAny()

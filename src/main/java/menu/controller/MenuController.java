@@ -11,13 +11,9 @@ import menu.domain.RecommendHistory;
 public class MenuController {
     public List<RecommendHistory> recommend(List<Coach> coaches) {
         List<RecommendHistory> recommendHistories = initHistories(coaches);
-
         for (int i = 0; i < 5; i++) {
-            // 카테고리 정하고
-            // 안겹치게 메뉴 정하고
-            // 각 맵에 저장
+            recommendDay(recommendHistories);
         }
-
         return recommendHistories;
     }
 
@@ -32,15 +28,20 @@ public class MenuController {
     private void recommendDay(List<RecommendHistory> recommendHistories) {
         MenuCategory menuCategory = choiceRandomCategory(recommendHistories);
         List<String> menus = Menu.findMenuNamesByCategory(menuCategory);
-        String menu = Randoms.shuffle(menus).get(0);
 
-        // 중복되거나  싫어하면 안됨
+        // 중복되거나 싫어하면 안됨
         for (RecommendHistory history : recommendHistories) {
-            if (history.canEat(menu)) {
-                history.addRecommendMenu(menu);
-            }
+            pickMenu(menus, history);
         }
     }
+
+    private void pickMenu(List<String> menus, RecommendHistory history) {
+        String menu = Randoms.shuffle(menus).get(0);
+        while (history.canEat(menu)) {
+            history.addRecommendMenu(menu);
+        }
+    }
+
 
     // 카테고리가 2개 이상이거나
     private MenuCategory choiceRandomCategory(List<RecommendHistory> recommendHistories) {
