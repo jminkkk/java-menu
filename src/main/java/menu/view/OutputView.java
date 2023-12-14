@@ -1,7 +1,5 @@
-package baseball.view;
+package menu.view;
 
-import baseball.util.ExceptionMessage;
-import baseball.util.PrintMessage;
 
 public class OutputView {
     public static void println() {
@@ -14,10 +12,4 @@ public class OutputView {
         System.out.print(message);
     }
 
-    public static void println(PrintMessage printMessage) {
-        println(printMessage.getMessage());
-    }
-    public static void println(ExceptionMessage exceptionMessage) {
-        println(exceptionMessage.getMessage());
-    }
 }
