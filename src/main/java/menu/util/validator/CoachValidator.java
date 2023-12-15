@@ -16,8 +16,8 @@ public class CoachValidator {
     }
     public static void validateName(String name) {
         int length = name.length();
-        if (length < 2 && length > 4) {
-            throw new IllegalArgumentException("[ERROR] 코치 이름이 2글자에서 4글자가 아닙니다. 다시 입력해주세요.");
+        if (length < 2 || length > 4) {
+            throw new IllegalArgumentException("[ERROR] " + name + ": 코치 이름이 2글자에서 4글자가 아닙니다. 다시 입력해주세요.");
         }
     }
 }
